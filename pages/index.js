@@ -5,13 +5,26 @@ import ContactList from "../components/ContactList";
 
 export default function Home() {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-evenly",
+        flexWrap: "wrap"
+      }}
+    >
       <Head>
         <title>Next.js App</title>
       </Head>
 
-      <h1>Contacts</h1>
-      <ContactList />
+      <div>
+        <h1>Contacts</h1>
+        <ContactList />
+      </div>
+
+      <div>
+        <h1>Favorites</h1>
+        <ContactList listFavorites />
+      </div>
     </div>
   );
 }

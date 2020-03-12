@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchContacts } from "../actions/contacts";
-import { getContacts } from "../selectors/contacts";
+import { getContacts, getFavorites } from "../selectors/contacts";
 import ContactItem from "../components/ContactItem";
 
 // Render a list of contacts alphabetically by last name, first name.
@@ -26,19 +26,44 @@ import ContactItem from "../components/ContactItem";
 // Erin Larson – (542) 321-3456
 // .....
 
-export default function ContactList() {
+export default function ContactList({ listFavorites }) {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = listFavorites
+    ? useSelector(getFavorites)
+    : useSelector(getContacts);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, []);
+  if (!listFavorites) {
+    useEffect(() => {
+      dispatch(fetchContacts());
+    }, []);
+  }
+
+  let charMap = new Map();
 
   return (
     <div style={{ width: 400 }}>
-      {contacts.map((contact, idx) => (
-        <ContactItem key={idx} {...contact} />
-      ))}
+      {contacts.map((contact, idx) => {
+        let firstChar = contact.lastName.charAt(0);
+        if (!charMap.get(firstChar)) {
+          charMap.set(firstChar, true);
+          return [
+            <p key={firstChar + "_separator"}>
+              {firstChar}
+              <br />
+              –––––––
+            </p>,
+            <ContactItem key={idx} {...contact} favorite={listFavorites} />
+          ];
+        } else {
+          return (
+            <ContactItem key={idx} {...contact} favorite={listFavorites} />
+          );
+        }
+      })}
     </div>
   );
 }
+
+ContactList.defaultProps = {
+  listFavorites: false
+};
