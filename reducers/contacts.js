@@ -48,7 +48,13 @@ export default function contacts(state = initialState, action) {
     case "FETCH_CONTACTS_COMPLETE":
       return {
         ...state,
-        data: action.data.sort(sortLastNameFirstName),
+        // For this situation I have included filtering inside the reducer as
+        // contacts without a phone number are not used anywhere. However, if
+        // these contacts without a phone number were to be used, I would
+        // place the filter method inside a selector.
+        data: action.data
+          .filter((contact) => contact.phone !== '')
+          .sort(sortLastNameFirstName),
         isFetching: false
       };
     case "FETCH_CONTACTS_FAILED":

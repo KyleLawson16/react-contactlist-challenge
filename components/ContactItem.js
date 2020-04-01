@@ -1,6 +1,13 @@
+/**
+ * ContactItem.js
+ * Component displaying contact information
+ */
+
 import React from "react";
 
 export default function ContactItem({ firstName, lastName, phone }) {
+  const phoneString = phone.replace(/\D/g, '');
+
   return (
     <div
       style={{
@@ -9,10 +16,10 @@ export default function ContactItem({ firstName, lastName, phone }) {
         borderBottom: "1px solid #eee"
       }}
     >
-      <p>
+      <p style={{textTransform: 'capitalize'}}>
         {firstName} <strong>{lastName}</strong>
       </p>
-      <p>{phone}</p>
+      <p>{`(${phoneString.substring(0,3)}) ${phoneString.substring(3,6)}-${phoneString.substring(6,10)}`}</p>
     </div>
   );
 }

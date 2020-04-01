@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchContacts } from "../actions/contacts";
 import { getContacts } from "../selectors/contacts";
@@ -34,11 +34,38 @@ export default function ContactList() {
     dispatch(fetchContacts());
   }, []);
 
+  // JSX
+  const contactsJSX = contacts.map((contact, index, array) => {
+    const currentLetter = contact.lastName[0].toUpperCase();
+    if (!index) {
+      // Provides header for first contact item
+      return (
+        <Fragment key={index}>
+          <p>{currentLetter}</p>
+          <ContactItem {...contact} />
+        </Fragment>
+      );
+    } else if (index < array.length - 1) {
+      const nextLetter = array[index + 1].lastName[0].toUpperCase();
+      if (currentLetter !== nextLetter) {
+        // Provides header for all other contact items
+        return (
+          <Fragment key={index}>
+            <ContactItem {...contact} />
+            <p>{nextLetter}</p>
+          </Fragment>
+        )
+      } else {
+        return (
+          <ContactItem key={index} {...contact} />
+        )
+      }
+    }
+  })
+
   return (
     <div style={{ width: 400 }}>
-      {contacts.map((contact, idx) => (
-        <ContactItem key={idx} {...contact} />
-      ))}
+      {contactsJSX}
     </div>
   );
 }

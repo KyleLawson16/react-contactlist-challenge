@@ -10,7 +10,7 @@ const testValues = [
   { firstName: "Alej", lastName: "Lexi", phone: "542-345-8721" },
   { firstName: "Erik", lastName: "lexi", phone: "(542)321-3456" },
   { firstName: "richardo", lastName: "julian", phone: "542 211 5678" },
-  { firstName: "bill", lastName: "Alex", phone: "542-6542154" }
+  { firstName: "bill", lastName: "Alex", phone: "123-456-7890" }
 ];
 
 export const resolveContacts = () =>
