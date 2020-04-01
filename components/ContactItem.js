@@ -4,16 +4,15 @@
  */
 
 // Node Modules
-import React, {useState} from "react";
+import React from "react";
 import {useDispatch} from 'react-redux';
 
 // Actions
 import {addFavorite, removeFavorite} from '../actions/contacts';
 
-export default function ContactItem({ id, firstName, lastName, phone }) {
+export default function ContactItem({ id, firstName, lastName, phone, favorite}) {
   // Hooks
   const dispatch = useDispatch();
-  const [favorite, setFavorite] = useState(false);
 
   // Callbacks
   const onClick = () => {
@@ -22,7 +21,6 @@ export default function ContactItem({ id, firstName, lastName, phone }) {
     } else {
       dispatch(addFavorite(id));
     }
-    setFavorite((prevState) => !prevState);
   };
 
   // Constants

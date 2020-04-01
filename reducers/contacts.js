@@ -31,6 +31,10 @@ const sortLastNameFirstName = (a, b) => {
 
 const initialState = {
   data: [],
+  // I have created a seperate list to store favorite contact values for the
+  // scope of this project. However, if this were a production application I
+  // would consider adding a favorite key with a boolean value to the contact
+  // object.
   favorites: [],
   isFetching: null,
   hasError: false,

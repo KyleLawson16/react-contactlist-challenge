@@ -1,5 +1,12 @@
-import React, { Fragment, useEffect } from "react";
+/**
+ * ContactList.js
+ * Component to render list of user contacts
+ */
+
+// Node Modules
+import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { fetchContacts } from "../actions/contacts";
 import { getContacts, getFavorites } from "../selectors/contacts";
 import ContactItem from "../components/ContactItem";
@@ -27,25 +34,26 @@ import ContactItem from "../components/ContactItem";
 // .....
 
 export default function ContactList() {
+  // Hooks
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
   const favorites = useSelector(getFavorites);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, []);
 
-  console.log(favorites)
-
   // JSX
   const contactsJSX = contacts.map((contact, index, array) => {
     const currentLetter = contact.lastName[0].toUpperCase();
+    const favorite = favorites.some((favorite) => favorite.id === contact.id);
     if (!index) {
       // Provides header for first contact item
       return (
         <Fragment key={index}>
           <p>{currentLetter}</p>
-          <ContactItem {...contact} />
+          <ContactItem key={index} {...contact} favorite={favorite} />
         </Fragment>
       );
     } else if (index < array.length - 1) {
@@ -54,21 +62,32 @@ export default function ContactList() {
         // Provides header for all other contact items
         return (
           <Fragment key={index}>
-            <ContactItem {...contact} />
+            <ContactItem key={index} {...contact} favorite={favorite} />
             <p>{nextLetter}</p>
           </Fragment>
         )
       } else {
         return (
-          <ContactItem key={index} {...contact} />
+          <ContactItem key={index} {...contact} favorite={favorite} />
         )
       }
     }
-  })
+  });
+
+  const favoritesJSX = favorites.map((contact, index, array) => {
+    const favorite = favorites.some((favorite) => favorite.id === contact.id);
+    return (
+      <ContactItem key={index} {...contact} favorite={favorite} />
+    );
+  });
 
   return (
     <div style={{ width: 400 }}>
-      {contactsJSX}
+      <div>
+        <button onClick={() => setShowFavorites(false)}>All</button>
+        <button onClick={() => setShowFavorites(true)}>Favorites</button>
+      </div>
+      {showFavorites ? favoritesJSX : contactsJSX}
     </div>
   );
 }
