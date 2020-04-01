@@ -31,6 +31,7 @@ const sortLastNameFirstName = (a, b) => {
 
 const initialState = {
   data: [],
+  favorites: [],
   isFetching: null,
   hasError: false,
   errorMsg: null
@@ -64,6 +65,21 @@ export default function contacts(state = initialState, action) {
         hasError: true,
         errorMsg: "Something went wrong"
       };
+    case 'ADD_FAVORITE':
+      return {
+        ...state,
+        favorites: [
+          ...state.favorites,
+          state.data.find((contact) => contact.id === action.id),
+        ],
+      };
+    case 'REMOVE_FAVORITE':
+      return {
+        ...state,
+        favorites: [
+          ...state.favorites.filter((contact) => contact.id !== action.id),
+        ],
+      }
     default:
       return state;
   }

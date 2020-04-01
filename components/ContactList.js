@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchContacts } from "../actions/contacts";
-import { getContacts } from "../selectors/contacts";
+import { getContacts, getFavorites } from "../selectors/contacts";
 import ContactItem from "../components/ContactItem";
 
 // Render a list of contacts alphabetically by last name, first name.
@@ -29,10 +29,13 @@ import ContactItem from "../components/ContactItem";
 export default function ContactList() {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
+  const favorites = useSelector(getFavorites);
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, []);
+
+  console.log(favorites)
 
   // JSX
   const contactsJSX = contacts.map((contact, index, array) => {
