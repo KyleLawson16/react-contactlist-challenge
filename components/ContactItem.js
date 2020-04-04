@@ -1,6 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
-export default function ContactItem({ firstName, lastName, phone }) {
+import { addFavorite, removeFavorite } from "./../actions/contacts";
+
+import AddFavoriteIcon from "./Icons/AddFavoriteIcon";
+import RemoveFavoriteIcon from "./Icons/RemoveFavoriteIcon";
+
+export default function ContactItem({ firstName, lastName, phone, favorite }) {
+  const dispatch = useDispatch();
   return (
     <div
       style={{
@@ -9,9 +16,24 @@ export default function ContactItem({ firstName, lastName, phone }) {
         borderBottom: "1px solid #eee"
       }}
     >
-      <p>
-        {firstName} <strong>{lastName}</strong>
-      </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }}
+      >
+        <p>
+          {firstName} <strong>{lastName}</strong>
+        </p>
+        {favorite ? (
+          <RemoveFavoriteIcon
+            handleClick={() => dispatch(removeFavorite(phone))}
+          />
+        ) : (
+          <AddFavoriteIcon handleClick={() => dispatch(addFavorite(phone))} />
+        )}
+      </div>
       <p>{phone}</p>
     </div>
   );

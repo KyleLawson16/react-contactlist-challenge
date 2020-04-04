@@ -1,3 +1,11 @@
+import {
+  addContactToFavorites,
+  removeContactFromFavorites,
+  normalizeContacts
+} from "../helpers/contactHelpers";
+
+// Using helpers here to make the reducer more declarative and easier to read
+
 const initialState = {
   data: [],
   isFetching: null,
@@ -17,7 +25,7 @@ export default function contacts(state = initialState, action) {
     case "FETCH_CONTACTS_COMPLETE":
       return {
         ...state,
-        data: action.data,
+        data: normalizeContacts(action.data),
         isFetching: false
       };
     case "FETCH_CONTACTS_FAILED":
@@ -26,6 +34,16 @@ export default function contacts(state = initialState, action) {
         isFetching: false,
         hasError: true,
         errorMsg: "Something went wrong"
+      };
+    case "ADD_CONTACT_TO_FAVORITES":
+      return {
+        ...state,
+        data: addContactToFavorites(state.data, action.data)
+      };
+    case "REMOVE_CONTACT_FROM_FAVORITES":
+      return {
+        ...state,
+        data: removeContactFromFavorites(state.data, action.data)
       };
     default:
       return state;
