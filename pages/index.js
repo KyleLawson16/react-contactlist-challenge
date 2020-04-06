@@ -17,7 +17,6 @@ export default function Home() {
   const removeFavorites = firstName => {
     setFavorites(favorites.filter(item => item !== firstName))
   }
-  console.log(favorites);
   
   return (
     <div>

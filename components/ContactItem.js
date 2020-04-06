@@ -15,7 +15,6 @@ export default function ContactItem({ firstName, lastName, phone, addFavorites, 
     {phone
       ? (
       <div>
-        
         <br/>
         <br/>
         <p>

@@ -33,10 +33,6 @@ export default function ContactList({ addFavorites, removeFavorites }) {
   useEffect(() => {
     dispatch(fetchContacts());
   }, []);
-
-  useEffect(() => {
-    
-  })
    
   const sorted = contacts.sort((a, b) => a.lastName.localeCompare(b.lastName))
   .reduce((acc, val) => {
