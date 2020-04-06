@@ -26,7 +26,7 @@ import ContactItem from "../components/ContactItem";
 // Erin Larson – (542) 321-3456
 // .....
 
-export default function ContactList() {
+export default function ContactList({ addFavorites, removeFavorites }) {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
 
@@ -34,11 +34,46 @@ export default function ContactList() {
     dispatch(fetchContacts());
   }, []);
 
+  useEffect(() => {
+    
+  })
+
+  const formatPhoneNumber = contacts.map(contact => {
+    let phone = contact.phone
+    let cleaned = ('' + phone).replace(/\D/g, '')
+    let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+    } else {
+      return null
+    }
+  })
+  
+  const sorted = contacts.sort((a, b) => a.lastName.localeCompare(b.lastName))
+  .reduce((acc, val) => {
+    const key = val.lastName[0];
+    if(!acc[key]) acc[key] = []
+    acc[key].push(val);
+    return acc;
+  }, {})
+
+  
+
+  
+
+  console.log(formatPhoneNumber);
+  
   return (
     <div style={{ width: 400 }}>
-      {contacts.map((contact, idx) => (
-        <ContactItem key={idx} {...contact} />
+      {Object.entries(sorted).map(([letter, value], idx) => (
+        <div key={idx}>
+          <strong>{letter}</strong>
+          {value.map((contact, index) => {
+            return <ContactItem key={index} letter={letter} {...contact}  addFavorites={addFavorites} removeFavorites={removeFavorites} />
+          })}
+        </div>
       ))}
     </div>
+    
   );
 }

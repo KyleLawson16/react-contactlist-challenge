@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function ContactItem({ firstName, lastName, phone }) {
+export default function ContactItem({ firstName, lastName, phone, addFavorites, removeFavorites }) {
+  
   return (
     <div
       style={{
@@ -9,10 +10,24 @@ export default function ContactItem({ firstName, lastName, phone }) {
         borderBottom: "1px solid #eee"
       }}
     >
-      <p>
-        {firstName} <strong>{lastName}</strong>
-      </p>
-      <p>{phone}</p>
+    {phone
+      ? (
+      <div>
+        
+        <br/>
+        <br/>
+        <p>
+          {firstName} <strong>{lastName}</strong>
+        </p>
+        <button onClick={() => addFavorites(firstName)}>Add to Favorites</button>
+        <button onClick={() => removeFavorites(firstName)}>Remove Favorites</button>
+        <p>{phone}</p>
+      </div>
+      )
+      : null
+    }    
+    
+      
     </div>
   );
 }
