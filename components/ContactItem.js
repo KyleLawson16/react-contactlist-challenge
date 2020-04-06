@@ -1,5 +1,7 @@
 import React from "react";
 
+import formatPhoneNumber from '../utils/formatNumber'
+
 export default function ContactItem({ firstName, lastName, phone, addFavorites, removeFavorites }) {
   
   return (
@@ -21,7 +23,7 @@ export default function ContactItem({ firstName, lastName, phone, addFavorites, 
         </p>
         <button onClick={() => addFavorites(firstName)}>Add to Favorites</button>
         <button onClick={() => removeFavorites(firstName)}>Remove Favorites</button>
-        <p>{phone}</p>
+        <p>{formatPhoneNumber(phone)}</p>
       </div>
       )
       : null

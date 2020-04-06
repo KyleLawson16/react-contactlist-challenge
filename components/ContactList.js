@@ -37,18 +37,7 @@ export default function ContactList({ addFavorites, removeFavorites }) {
   useEffect(() => {
     
   })
-
-  const formatPhoneNumber = contacts.map(contact => {
-    let phone = contact.phone
-    let cleaned = ('' + phone).replace(/\D/g, '')
-    let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
-    if (match) {
-      return '(' + match[1] + ') ' + match[2] + '-' + match[3]
-    } else {
-      return null
-    }
-  })
-  
+   
   const sorted = contacts.sort((a, b) => a.lastName.localeCompare(b.lastName))
   .reduce((acc, val) => {
     const key = val.lastName[0];
@@ -56,12 +45,6 @@ export default function ContactList({ addFavorites, removeFavorites }) {
     acc[key].push(val);
     return acc;
   }, {})
-
-  
-
-  
-
-  console.log(formatPhoneNumber);
   
   return (
     <div style={{ width: 400 }}>
